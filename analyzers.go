@@ -18,16 +18,35 @@ type Request struct {
 	Text     []map[string]string
 }
 
-// Sentiment makes a request to the Azure Cognative Service for Text Analytics using the supplied:
+// Language makes a request to the Language Detection API of Azure Cognative Service for Text Analytics using the supplied:
 //
 // - API Key (Dashboard > Resources > {COGNATIVE SERVICES RESOURCE NAME} > Resource Management > Keys)
 //
 // - Resource Name ('http://{COGNATIVE SERVICES RESOURCE NAME}.cognitiveservices.azure.com')
 //
-// - Text to be analyzed for sentiment.
+// - Text to be analyzed for detecting the language it's written in.
+func Language(apiKey string, resourceName string, document []map[string]string) string {
+
+	// Define the API to make a call to
+	var apiType = "languages"
+
+	// Build a new Request struct with the inputs to pass into
+	request := Request{apiKey, resourceName, apiType, document}
+	output := apiRequest(request)
+	return string(output)
+
+}
+
+// Sentiment makes a request to the Sentiment Analysis API of the Azure Cognative Service for Text Analytics using the supplied:
+//
+// - API Key (Dashboard > Resources > {COGNATIVE SERVICES RESOURCE NAME} > Resource Management > Keys)
+//
+// - Resource Name ('http://{COGNATIVE SERVICES RESOURCE NAME}.cognitiveservices.azure.com')
+//
+// - Text to be analyzed for a positive/negative sentiment reading.
 func Sentiment(apiKey string, resourceName string, document []map[string]string) string {
 
-	// Complete the definition of the API Endpoint for sentiment analysis
+	// Define the API to make a call to
 	var apiType = "sentiment"
 
 	// Build a new Request struct with the inputs to pass into
@@ -63,6 +82,7 @@ func apiRequest(apiRequest Request) []byte {
 		}
 	}
 
+	// Complete the definition of the API Endpoint for sentiment analysis
 	var apiEndpoint = "https://" + apiRequest.Endpoint + ".cognitiveservices.azure.com/text/analytics/v2.1/" + apiRequest.Type
 
 	// Ensuring input text to be analyzed encoded in JSON. Address pointer probably unnecessary
