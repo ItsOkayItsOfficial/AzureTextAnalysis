@@ -14,6 +14,7 @@ import (
 type Request struct {
 	Key      string
 	Endpoint string
+	Type     string
 	Text     []map[string]string
 }
 
@@ -25,41 +26,44 @@ type Request struct {
 //
 // - Text to be analyzed for sentiment.
 func Sentiment(apiKey string, resourceName string, document []map[string]string) string {
-	// If API Key input is blank
-	if apiKey == "" {
-		// Set API Key as environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'
-		apiKey = os.Getenv("TEXT_ANALYTICS_SUBSCRIPTION_KEY")
-
-		// If environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY' is blank/does not exist
-		if apiKey == "" {
-			// No dice
-			log.Fatal("Check API Key input or set/export the environment variable for 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'.")
-		}
-	}
-
-	// If Resource Name input is blank
-	if resourceName == "" {
-		// Set Resource Name as environment variable 'TEXT_ANALYTICS_ENDPOINT'
-		resourceName = os.Getenv("TEXT_ANALYTICS_ENDPOINT")
-
-		// If environment variable 'TEXT_ANALYTICS_ENDPOINT' is blank/does not exist
-		if resourceName == "" {
-			// No dice
-			log.Fatal("Check the Resource Name input or set/export the environment variable for 'TEXT_ANALYTICS_ENDPOINT'.")
-		}
-	}
 
 	// Complete the definition of the API Endpoint for sentiment analysis
-	var apiEndpoint = "https://" + resourceName + ".cognitiveservices.azure.com/text/analytics/v2.1/sentiment"
+	var apiType = "sentiment"
 
 	// Build a new Request struct with the inputs to pass into
-	request := Request{apiKey, apiEndpoint, document}
+	request := Request{apiKey, resourceName, apiType, document}
 	output := apiRequest(request)
 	return string(output)
 
 }
 
 func apiRequest(apiRequest Request) []byte {
+
+	// If API Key input is blank
+	if apiRequest.Key == "" {
+		// Set API Key as environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'
+		apiRequest.Key = os.Getenv("TEXT_ANALYTICS_SUBSCRIPTION_KEY")
+
+		// If environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY' is blank/does not exist
+		if apiRequest.Key == "" {
+			// No dice
+			log.Fatal("Check API Key input or set/export the environment variable for 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'.")
+		}
+	}
+
+	// If Resource Name input is blank
+	if apiRequest.Endpoint == "" {
+		// Set Resource Name as environment variable 'TEXT_ANALYTICS_ENDPOINT'
+		apiRequest.Endpoint = os.Getenv("TEXT_ANALYTICS_ENDPOINT")
+
+		// If environment variable 'TEXT_ANALYTICS_ENDPOINT' is blank/does not exist
+		if apiRequest.Endpoint == "" {
+			// No dice
+			log.Fatal("Check the Resource Name input or set/export the environment variable for 'TEXT_ANALYTICS_ENDPOINT'.")
+		}
+	}
+
+	var apiEndpoint = "https://" + apiRequest.Endpoint + ".cognitiveservices.azure.com/text/analytics/v2.1/" + apiRequest.Type
 
 	// Ensuring input text to be analyzed encoded in JSON. Address pointer probably unnecessary
 	documents, err := json.Marshal(&apiRequest.Text)
@@ -76,7 +80,7 @@ func apiRequest(apiRequest Request) []byte {
 	}
 
 	// Define HTTP request as POST with API Endpoint and Text for transmission
-	request, err := http.NewRequest("POST", apiRequest.Endpoint, data)
+	request, err := http.NewRequest("POST", apiEndpoint, data)
 	if err != nil {
 		log.Fatal("Error creating POST request: %v\n", err)
 	}
