@@ -24,7 +24,7 @@ type Request struct {
 //
 // - Resource Name ('http://{COGNATIVE SERVICES RESOURCE NAME}.cognitiveservices.azure.com')
 //
-// - Text to be analyzed.
+// - Text to be analyzed matching expected format of `{"language": "LANGUAGE", "id": "ID NUMBER", "text": "TEXT"}`.
 //
 // The API returns a list of known entities and general named entities ("Person", "Location", "Organization" etc) in a given document. Known entities are returned with Wikipedia Id and Wikipedia link, and also Bing Id which can be used in Bing Entity Search API. General named entities are returned with entity types. If a general named entity is also a known entity, then all information regarding it (Wikipedia Id, Bing Id, entity type etc) will be returned.
 //
@@ -47,7 +47,7 @@ func Entities(apiKey string, resourceName string, document []map[string]string) 
 //
 // - Resource Name ('http://{COGNATIVE SERVICES RESOURCE NAME}.cognitiveservices.azure.com')
 //
-// - Text to be analyzed.
+// - Text to be analyzed matching expected format of `{"language": "LANGUAGE", "id": "ID NUMBER", "text": "TEXT"}`.
 //
 // The API returns a list of strings denoting the key talking points in the input text.
 //
@@ -70,7 +70,7 @@ func Phrases(apiKey string, resourceName string, document []map[string]string) s
 //
 // - Resource Name ('http://{COGNATIVE SERVICES RESOURCE NAME}.cognitiveservices.azure.com')
 //
-// - Text to be analyzed.
+// - Text to be analyzed matching expected format of `{"countryHint": "OPTIONAL", "id": "ID NUMBER", "text": "TEXT"}`.
 //
 // The API returns the detected language and a numeric score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. A total of 120 languages are supported.
 //
@@ -93,7 +93,7 @@ func Language(apiKey string, resourceName string, document []map[string]string) 
 //
 // - Resource Name ('http://{COGNATIVE SERVICES RESOURCE NAME}.cognitiveservices.azure.com')
 //
-// - Text to be analyzed.
+// - Text to be analyzed matching expected format of `{"language": "LANGUAGE", "id": "ID NUMBER", "text": "TEXT"}`.
 //
 // The API returns a numeric score between 0 and 1. Scores close to 1 indicate positive sentiment, while scores close to 0 indicate negative sentiment. A score of 0.5 indicates the lack of sentiment (e.g. a factoid statement).
 //
