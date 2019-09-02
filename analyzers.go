@@ -14,7 +14,7 @@ import (
 type Request struct {
 	Key      string
 	Endpoint string
-	Text     string
+	Text     []map[string]string
 }
 
 // Sentiment makes a request to the Azure Cognative Service for Text Analytics using the supplied:
@@ -24,7 +24,7 @@ type Request struct {
 // - Resource Name ('http://{COGNATIVE SERVICES RESOURCE NAME}.cognitiveservices.azure.com')
 //
 // - Text to be analyzed for sentiment.
-func Sentiment(apiKey string, resourceName string, document string) string {
+func Sentiment(apiKey string, resourceName string, document []map[string]string) string {
 	// If API Key input is blank
 	if apiKey == "" {
 		// Set API Key as environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'
