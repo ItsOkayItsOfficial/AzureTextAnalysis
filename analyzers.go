@@ -142,7 +142,7 @@ func apiRequest(apiRequest Request) []byte {
 	// Ensuring input text to be analyzed encoded in JSON. Address pointer probably unnecessary
 	documents, err := json.Marshal(&apiRequest.Text)
 	if err != nil {
-		log.Fatal("Error marshaling provided text into data: %v\n", err)
+		log.Fatal("Error marshaling provided text into data\n", err)
 	}
 
 	// Serialize text into Reader for POST request
@@ -156,7 +156,7 @@ func apiRequest(apiRequest Request) []byte {
 	// Define HTTP request as POST with API Endpoint and Text for transmission
 	request, err := http.NewRequest("POST", apiEndpoint, data)
 	if err != nil {
-		log.Fatal("Error creating POST request: %v\n", err)
+		log.Fatal("Error creating POST request\n", err)
 	}
 
 	// Add Headers to the defined HTTP request
@@ -165,13 +165,13 @@ func apiRequest(apiRequest Request) []byte {
 
 	response, err := client.Do(request)
 	if err != nil {
-		log.Fatal("Error on request: %v\n", err)
+		log.Fatal("Error on request\n", err)
 	}
 	defer response.Body.Close()
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		log.Fatal("Error reading response body: ", err)
+		log.Fatal("Error reading response body\n", err)
 	}
 
 	// Define throw-away interface to store the soon-to-be uncoded JSON
@@ -183,7 +183,7 @@ func apiRequest(apiRequest Request) []byte {
 	// Format the uncoded JSON into readable JSON
 	jsonFormatted, err := json.MarshalIndent(f, "", "  ")
 	if err != nil {
-		log.Fatal("Error producing JSON: %v\n", err)
+		log.Fatal("Error producing JSON\n", err)
 	}
 
 	// BOOM
