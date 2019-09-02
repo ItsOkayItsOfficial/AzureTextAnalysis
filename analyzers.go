@@ -29,7 +29,7 @@ type Request struct {
 // The API returns a list of known entities and general named entities ("Person", "Location", "Organization" etc) in a given document. Known entities are returned with Wikipedia Id and Wikipedia link, and also Bing Id which can be used in Bing Entity Search API. General named entities are returned with entity types. If a general named entity is also a known entity, then all information regarding it (Wikipedia Id, Bing Id, entity type etc) will be returned.
 //
 // For more information see the Azure Cognative Service for Text Analytics Entities [documentation](https://westus.dev.cognitive.microsoft.com/docs/services/TextAnalytics-V2-1/operations/5ac4251d5b4ccd1554da7634).  See the [Supported Entity Types in Text Analytics API](https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-entity-linking#supported-types-for-named-entity-recognition) for the list of supported Entity Types. See the [Supported languages in Text Analytics API](https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages) for the list of enabled languages.
-func Sentiment(apiKey string, resourceName string, document []map[string]string) string {
+func Entities(apiKey string, resourceName string, document []map[string]string) string {
 
 	// Define the API to make a call to
 	var apiType = "entities"
