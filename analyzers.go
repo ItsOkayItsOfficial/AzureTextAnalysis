@@ -32,7 +32,7 @@ type Request struct {
 func Entities(apiKey string, resourceName string, document []map[string]string) string {
 
 	// Define the API to make a call to
-	var apiType = "entities"
+	apiType := "entities"
 
 	// Build a new Request struct with the inputs to pass into
 	request := Request{apiKey, resourceName, apiType, document}
@@ -55,7 +55,7 @@ func Entities(apiKey string, resourceName string, document []map[string]string) 
 func Phrases(apiKey string, resourceName string, document []map[string]string) string {
 
 	// Define the API to make a call to
-	var apiType = "keyPhrases"
+	apiType := "keyPhrases"
 
 	// Build a new Request struct with the inputs to pass into
 	request := Request{apiKey, resourceName, apiType, document}
@@ -78,7 +78,7 @@ func Phrases(apiKey string, resourceName string, document []map[string]string) s
 func Language(apiKey string, resourceName string, document []map[string]string) string {
 
 	// Define the API to make a call to
-	var apiType = "languages"
+	apiType := "languages"
 
 	// Build a new Request struct with the inputs to pass into
 	request := Request{apiKey, resourceName, apiType, document}
@@ -101,7 +101,7 @@ func Language(apiKey string, resourceName string, document []map[string]string) 
 func Sentiment(apiKey string, resourceName string, document []map[string]string) string {
 
 	// Define the API to make a call to
-	var apiType = "sentiment"
+	apiType := "sentiment"
 
 	// Build a new Request struct with the inputs to pass into
 	request := Request{apiKey, resourceName, apiType, document}
@@ -137,7 +137,7 @@ func apiRequest(apiRequest Request) []byte {
 	}
 
 	// Complete the definition of the API Endpoint for sentiment analysis
-	var apiEndpoint = "https://" + apiRequest.Endpoint + ".cognitiveservices.azure.com/text/analytics/v2.1/" + apiRequest.Type
+	apiEndpoint := "https://" + apiRequest.Endpoint + ".cognitiveservices.azure.com/text/analytics/v2.1/" + apiRequest.Type
 
 	// Ensuring input text to be analyzed encoded in JSON. Address pointer probably unnecessary
 	documents, err := json.Marshal(&apiRequest.Text)
