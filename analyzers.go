@@ -114,25 +114,30 @@ func apiRequest(apiRequest Request) []byte {
 
 	// If API Key input is blank
 	if apiRequest.Key == "" {
-		// Set API Key as environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'
-		apiRequest.Key = os.Getenv("TEXT_ANALYTICS_SUBSCRIPTION_KEY")
+		// Lookup API Key as environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'
+		key, ok := os.LookupEnv("TEXT_ANALYTICS_SUBSCRIPTION_KEY")
 
-		// If environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY' is blank/does not exist
-		if apiRequest.Key == "" {
+		// If environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY' is false (does not exist)
+		if !ok {
 			// No dice
-			log.Fatal("Check API Key input or set/export the environment variable for 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'.")
+			log.Fatal("API Key must be provided as an input or set as environment variable 'TEXT_ANALYTICS_SUBSCRIPTION_KEY'.")
+		} else {
+			// Otherwise use environment variable as API Key
+			apiRequest.Key = key
 		}
 	}
 
 	// If Resource Name input is blank
 	if apiRequest.Endpoint == "" {
-		// Set Resource Name as environment variable 'TEXT_ANALYTICS_ENDPOINT'
-		apiRequest.Endpoint = os.Getenv("TEXT_ANALYTICS_ENDPOINT")
+		// Lookup Resource Name as environment variable 'TEXT_ANALYTICS_ENDPOINT'
+		endpoint, ok := os.LookupEnv("TEXT_ANALYTICS_ENDPOINT")
 
-		// If environment variable 'TEXT_ANALYTICS_ENDPOINT' is blank/does not exist
-		if apiRequest.Endpoint == "" {
+		// If environment variable 'TEXT_ANALYTICS_ENDPOINT' is false (does not exist)
+		if !ok {
 			// No dice
-			log.Fatal("Check the Resource Name input or set/export the environment variable for 'TEXT_ANALYTICS_ENDPOINT'.")
+			log.Fatal("Resource Name must be provided as an input or set as environment variable 'TEXT_ANALYTICS_ENDPOINT'.")
+		} else {
+			apiRequest.Endpoint = endpoint
 		}
 	}
 
